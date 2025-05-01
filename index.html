@@ -178,16 +178,17 @@
 
     loadFeeds();
 
-    // Recupera EUR/USD dalla BCE
-    fetch("https://api.exchangerate.host/latest?base=EUR&symbols=USD")
-      .then(res => res.json())
-      .then(data => {
-        const rate = data.rates.USD.toFixed(4);
-        document.getElementById("eurusd").textContent = `EUR/USD: ${rate}`;
-      })
-      .catch(() => {
-        document.getElementById("eurusd").textContent = "EUR/USD: dato non disponibile";
-      });
+    // Recupera EUR/USD con Frankfurter
+fetch("https://api.frankfurter.app/latest?from=EUR&to=USD")
+  .then(res => res.json())
+  .then(data => {
+    const rate = data.rates.USD.toFixed(4);
+    document.getElementById("eurusd").textContent = `EUR/USD: ${rate}`;
+  })
+  .catch(() => {
+    document.getElementById("eurusd").textContent = "EUR/USD: dato non disponibile";
+  });
+
   </script>
 </body>
 </html>
