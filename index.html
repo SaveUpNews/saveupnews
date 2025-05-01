@@ -99,16 +99,34 @@
       }
     }
 
+    function extractImage(article) {
+      // Usa thumbnail se disponibile, altrimenti cerca in enclosure o content
+      if (article.thumbnail) return article.thumbnail;
+
+      // Prova da enclosure
+      if (article.enclosure && article.enclosure.link) return article.enclosure.link;
+
+      // Regex per estrarre <img src="..."> da content o description
+      const imgRegex = /<img[^>]+src=\"([^\"]+)\"/;
+      const html = article.content || article.description || "";
+      const match = html.match(imgRegex);
+      if (match && match[1]) return match[1];
+
+      // Placeholder se nulla trovato
+      return "https://via.placeholder.com/400x160/222/ccc?text=No+Image";
+    }
+
     async function loadFeeds() {
       const feedContainer = document.getElementById("feed");
       for (const url of feedUrls) {
         try {
           const articles = await fetchRSS(url);
           articles.slice(0, 3).forEach(article => {
+            const imageUrl = extractImage(article);
             const card = document.createElement("div");
             card.className = "card";
             card.innerHTML = `
-              ${article.thumbnail ? `<img src="${article.thumbnail}" alt="">` : ''}
+              <img src="${imageUrl}" alt="Anteprima notizia">
               <div class="card-content">
                 <h3><a href="${article.link}" target="_blank">${article.title}</a></h3>
                 <div class="source">Fonte: ${extractSource(article.link)}</div>
@@ -126,3 +144,4 @@
   </script>
 </body>
 </html>
+
