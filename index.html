@@ -23,7 +23,7 @@
       gap: 15px;
     }
     .header img {
-      height: 40px;
+      height: 70px;
     }
     h1 {
       color: #4dabf7;
@@ -35,6 +35,20 @@
       color: #aaa;
       margin-top: 0.5rem;
       margin-bottom: 2rem;
+    }
+    .markets {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    .market-box {
+      background-color: #1e1e1e;
+      border-radius: 6px;
+      padding: 10px 15px;
+      font-size: 0.95rem;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.2);
+      min-width: 140px;
     }
     .grid {
       display: grid;
@@ -84,15 +98,24 @@
       <h1>SaveUp News</h1>
     </div>
     <h2>Un piccolo aiuto per restare aggiornato.</h2>
+
+    <div class="markets" id="markets">
+      <div class="market-box" id="eurusd">EUR/USD: ...</div>
+      <div class="market-box" id="btp">Spread BTP-Bund: ...</div>
+      <div class="market-box" id="ftsemib">FTSE MIB: ...</div>
+      <div class="market-box" id="nasdaq">NASDAQ: ...</div>
+      <div class="market-box" id="treasury">US 10Y: ...</div>
+      <div class="market-box" id="btc">BTC/USD: ...</div>
+    </div>
+
     <div class="grid" id="feed"></div>
   </div>
 
   <script>
     const feedUrls = [
       "https://www.ilsole24ore.com/rss/economia.xml",
-      "https://feeds.a.dj.com/rss/RSSMarketsMain.xml",
-      "https://www.ansa.it/sito/notizie/economia/economia_rss.xml"
-      
+      "https://www.ansa.it/sito/notizie/economia/economia_rss.xml",
+      "https://feeds.a.dj.com/rss/RSSMarketsMain.xml"
     ];
 
     const fallbackImages = [
@@ -157,4 +180,3 @@
   </script>
 </body>
 </html>
-
