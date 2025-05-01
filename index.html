@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SaveUp News</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1 {
+      font-size: 2rem;
+      color: #1a73e8;
+    }
+    h2 {
+      font-size: 1rem;
+      font-weight: normal;
+      color: #555;
+    }
+    .article {
+      border-bottom: 1px solid #ccc;
+      padding: 10px 0;
+    }
+    .article h3 {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+    .article a {
+      text-decoration: none;
+      color: #1a73e8;
+    }
+    .article a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>SaveUp News</h1>
+  <h2>Un piccolo aiuto per restare aggiornato.</h2>
+  <div id="feed"></div>
+
+  <script>
+    const feedUrls = [
+      "https://www.ilsole24ore.com/rss/economia.xml",
+      "https://www.ansa.it/sito/notizie/economia/economia_rss.xml",
+      "https://www.reuters.com/rssFeed/economyNews"
+    ];
+
+    async function fetchRSS(url) {
+      const api = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`;
+      const res = await fetch(api);
+      const data = await res.json();
+      return data.items;
+    }
+
+    async function loadFeeds() {
+      const feedContainer = document.getElementById("feed");
+      for (const url of feedUrls) {
+        try {
+          const articles = await fetchRSS(url);
+          articles.slice(0, 3).forEach(article => {
+            const div = document.createElement("div");
+            div.className = "article";
+            div.innerHTML = `<h3><a href="${article.link}" target="_blank">${article.title}</a></h3>`;
+            feedContainer.appendChild(div);
+          });
+        } catch (error) {
+          console.error("Errore nel caricamento feed:", url, error);
+        }
+      }
+    }
+
+    loadFeeds();
+  </script>
+</body>
+</html>
