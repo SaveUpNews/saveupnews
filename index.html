@@ -7,7 +7,7 @@
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #333333;
+      background-color: #121212;
       color: #f1f1f1;
       margin: 0;
       padding: 0;
@@ -114,8 +114,8 @@
   <script>
     const feedUrls = [
       "https://www.ilsole24ore.com/rss/economia.xml",
-      "https://it.investing.com/rss/news_25.rss",
-      "https://finance.yahoo.com/news/rssindex"
+      "https://www.ansa.it/sito/notizie/economia/economia_rss.xml",
+      "https://feeds.a.dj.com/rss/RSSMarketsMain.xml"
     ];
 
     const fallbackImages = [
@@ -178,17 +178,31 @@
 
     loadFeeds();
 
-    // Recupera EUR/USD con Frankfurter
+    // Recupera EUR/USD dalla BCE
+    let previousRate = null;
+
 fetch("https://api.frankfurter.app/latest?from=EUR&to=USD")
   .then(res => res.json())
   .then(data => {
-    const rate = data.rates.USD.toFixed(4);
-    document.getElementById("eurusd").textContent = `EUR/USD: ${rate}`;
+    const rate = parseFloat(data.rates.USD.toFixed(4));
+    const box = document.getElementById("eurusd");
+    box.textContent = `EUR/USD: ${rate}`;
+
+    if (previousRate !== null) {
+      if (rate > previousRate) {
+        box.style.color = "#00ff99"; // verde
+      } else if (rate < previousRate) {
+        box.style.color = "#ff5050"; // rosso
+      } else {
+        box.style.color = "#f1f1f1"; // neutro
+      }
+    }
+    previousRate = rate;
   })
   .catch(() => {
     document.getElementById("eurusd").textContent = "EUR/USD: dato non disponibile";
   });
-
   </script>
 </body>
 </html>
+
