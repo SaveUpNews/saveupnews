@@ -83,6 +83,14 @@
       "https://www.reuters.com/rssFeed/economyNews"
     ];
 
+    const fallbackImages = [
+      "https://source.unsplash.com/400x160/?finance",
+      "https://source.unsplash.com/400x160/?economy",
+      "https://source.unsplash.com/400x160/?news",
+      "https://source.unsplash.com/400x160/?business",
+      "https://source.unsplash.com/400x160/?market"
+    ];
+
     async function fetchRSS(url) {
       const api = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`;
       const res = await fetch(api);
@@ -100,20 +108,14 @@
     }
 
     function extractImage(article) {
-      // Usa thumbnail se disponibile, altrimenti cerca in enclosure o content
       if (article.thumbnail) return article.thumbnail;
-
-      // Prova da enclosure
       if (article.enclosure && article.enclosure.link) return article.enclosure.link;
-
-      // Regex per estrarre <img src="..."> da content o description
       const imgRegex = /<img[^>]+src=\"([^\"]+)\"/;
       const html = article.content || article.description || "";
       const match = html.match(imgRegex);
       if (match && match[1]) return match[1];
-
-      // Placeholder se nulla trovato
-      return "https://via.placeholder.com/400x160/222/ccc?text=No+Image";
+      const randomIndex = Math.floor(Math.random() * fallbackImages.length);
+      return fallbackImages[randomIndex];
     }
 
     async function loadFeeds() {
@@ -144,4 +146,3 @@
   </script>
 </body>
 </html>
-
