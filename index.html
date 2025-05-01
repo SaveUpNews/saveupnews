@@ -17,15 +17,23 @@
       margin: auto;
       padding: 20px;
     }
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .header img {
+      height: 40px;
+    }
     h1 {
       color: #4dabf7;
       font-size: 2.5rem;
-      margin-bottom: 0.3rem;
+      margin: 0;
     }
     h2 {
       font-weight: normal;
       color: #aaa;
-      margin-top: 0;
+      margin-top: 0.5rem;
       margin-bottom: 2rem;
     }
     .grid {
@@ -71,7 +79,10 @@
 </head>
 <body>
   <div class="container">
-    <h1>SaveUp News</h1>
+    <div class="header">
+      <img src="https://raw.githubusercontent.com/Davidsaveup/saveupnews/main/logo.png" alt="SaveUp Logo">
+      <h1>SaveUp News</h1>
+    </div>
     <h2>Un piccolo aiuto per restare aggiornato.</h2>
     <div class="grid" id="feed"></div>
   </div>
@@ -84,11 +95,10 @@
     ];
 
     const fallbackImages = [
-      "https://source.unsplash.com/400x160/?finance",
-      "https://source.unsplash.com/400x160/?economy",
-      "https://source.unsplash.com/400x160/?news",
-      "https://source.unsplash.com/400x160/?business",
-      "https://source.unsplash.com/400x160/?market"
+      "https://raw.githubusercontent.com/Davidsaveup/saveupnews/main/images/fallback1.jpg",
+      "https://raw.githubusercontent.com/Davidsaveup/saveupnews/main/images/fallback2.jpg",
+      "https://raw.githubusercontent.com/Davidsaveup/saveupnews/main/images/fallback3.jpg",
+      "https://raw.githubusercontent.com/Davidsaveup/saveupnews/main/images/fallback4.jpg"
     ];
 
     async function fetchRSS(url) {
@@ -146,3 +156,4 @@
   </script>
 </body>
 </html>
+
