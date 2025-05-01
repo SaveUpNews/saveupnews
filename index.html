@@ -101,7 +101,7 @@
 
     <div class="markets" id="markets">
       <div class="market-box" id="eurusd">EUR/USD: ...</div>
-      <div class="market-box" id="btp">BTP-Bund: ...</div>
+      <div class="market-box" id="btp">Spread BTP-Bund: ...</div>
       <div class="market-box" id="ftsemib">FTSE MIB: ...</div>
       <div class="market-box" id="nasdaq">NASDAQ: ...</div>
       <div class="market-box" id="treasury">US 10Y: ...</div>
@@ -181,31 +181,32 @@
     // Recupera EUR/USD dalla BCE
     let previousRate = null;
 
-let previousRate = null;
+function updateEURUSD() {
+  fetch("https://api.coingecko.com/api/v3/simple/price?ids=eur&vs_currencies=usd")
+    .then(res => res.json())
+    .then(data => {
+      const rate = parseFloat(data.eur.usd.toFixed(4));
+      const box = document.getElementById("eurusd");
+      box.textContent = `EUR/USD: ${rate}`;
 
-fetch("https://api.coingecko.com/api/v3/simple/price?ids=eur&vs_currencies=usd")
-  .then(res => res.json())
-  .then(data => {
-    const rate = parseFloat(data.eur.usd.toFixed(4));
-    const box = document.getElementById("eurusd");
-    box.textContent = `EUR/USD: ${rate}`;
-
-    if (previousRate !== null) {
-      if (rate > previousRate) {
-        box.style.color = "#00ff99";
-      } else if (rate < previousRate) {
-        box.style.color = "#ff5050";
-      } else {
-        box.style.color = "#f1f1f1";
+      if (previousRate !== null) {
+        if (rate > previousRate) {
+          box.style.color = "#00ff99"; // verde
+        } else if (rate < previousRate) {
+          box.style.color = "#ff5050"; // rosso
+        } else {
+          box.style.color = "#f1f1f1"; // neutro
+        }
       }
-    }
-    previousRate = rate;
-  })
-  .catch(() => {
-    document.getElementById("eurusd").textContent = "EUR/USD: dato non disponibile";
-  });
+      previousRate = rate;
+    })
+    .catch(() => {
+      document.getElementById("eurusd").textContent = "EUR/USD: dato non disponibile";
+    });
+}
 
+updateEURUSD();
+setInterval(updateEURUSD, 60000);
   </script>
 </body>
 </html>
-
