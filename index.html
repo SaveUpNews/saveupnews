@@ -181,20 +181,22 @@
     // Recupera EUR/USD dalla BCE
     let previousRate = null;
 
-fetch("https://api.frankfurter.app/latest?from=EUR&to=USD")
+let previousRate = null;
+
+fetch("https://api.coingecko.com/api/v3/simple/price?ids=eur&vs_currencies=usd")
   .then(res => res.json())
   .then(data => {
-    const rate = parseFloat(data.rates.USD.toFixed(4));
+    const rate = parseFloat(data.eur.usd.toFixed(4));
     const box = document.getElementById("eurusd");
     box.textContent = `EUR/USD: ${rate}`;
 
     if (previousRate !== null) {
       if (rate > previousRate) {
-        box.style.color = "#00ff99"; // verde
+        box.style.color = "#00ff99";
       } else if (rate < previousRate) {
-        box.style.color = "#ff5050"; // rosso
+        box.style.color = "#ff5050";
       } else {
-        box.style.color = "#f1f1f1"; // neutro
+        box.style.color = "#f1f1f1";
       }
     }
     previousRate = rate;
