@@ -26,7 +26,7 @@
       height: 70px;
     }
     h1 {
-      color: #095fc1;
+      color: #4dabf7;
       font-size: 2.5rem;
       margin: 0;
     }
@@ -76,7 +76,7 @@
     .card-content h3 {
       margin: 0 0 10px;
       font-size: 1.1rem;
-      color: #095fc1;
+      color: #4dabf7;
     }
     .card-content a {
       text-decoration: none;
@@ -177,6 +177,17 @@
     }
 
     loadFeeds();
+
+    // Recupera EUR/USD dalla BCE
+    fetch("https://api.exchangerate.host/latest?base=EUR&symbols=USD")
+      .then(res => res.json())
+      .then(data => {
+        const rate = data.rates.USD.toFixed(4);
+        document.getElementById("eurusd").textContent = `EUR/USD: ${rate}`;
+      })
+      .catch(() => {
+        document.getElementById("eurusd").textContent = "EUR/USD: dato non disponibile";
+      });
   </script>
 </body>
 </html>
