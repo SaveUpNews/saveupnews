@@ -103,6 +103,11 @@
       font-size: 0.8rem;
       color: #888;
     }
+    .summary {
+  font-size: 0.9rem;
+  color: #ccc;
+  margin-bottom: 10px;
+}
   </style>
 </head>
 <body>
@@ -177,12 +182,13 @@
             const card = document.createElement("div");
             card.className = "card";
             card.innerHTML = `
-              <img src="${imageUrl}" alt="Anteprima notizia">
-              <div class="card-content">
-                <h3><a href="${article.link}" target="_blank">${article.title}</a></h3>
-                <div class="source">Fonte: ${extractSource(article.link)}</div>
-              </div>
-            `;
+  <img src="${imageUrl}" alt="Anteprima notizia">
+  <div class="card-content">
+    <h3><a href="${article.link}" target="_blank">${article.title}</a></h3>
+    <p class="summary">${article.description.substring(0, 150)}...</p>
+    <div class="source">Fonte: ${extractSource(article.link)}</div>
+  </div>
+`;
             feedContainer.appendChild(card);
           });
         } catch (error) {
